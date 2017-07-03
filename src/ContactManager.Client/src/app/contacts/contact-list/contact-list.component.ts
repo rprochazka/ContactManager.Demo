@@ -28,7 +28,6 @@ export class ContactListComponent implements OnInit {
     event.stopPropagation();
     if (confirm('Are you sure you want to delete ' + contact.lastName + '?')) {
       this.contactService.deleteContact(contact.id)
-        // .flatMap(() => this.contactService.getContacts())
         .subscribe(() => window.location.reload(),
           err => {
             alert('Could not delete contact.');
