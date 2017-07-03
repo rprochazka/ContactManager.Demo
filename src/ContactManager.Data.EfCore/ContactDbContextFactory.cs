@@ -6,12 +6,12 @@ namespace ContactManager.Data.EfCore
 {
     public class ContactDbContextFactory : IContactDbContextFactory
     {
-        private readonly IApplicationConfig appConfig;
+        private readonly ApplicationConfig appConfig;
         private readonly ILoggerFactory loggerFactory;        
 
-        public ContactDbContextFactory(IApplicationConfig appConfig, ILoggerFactory loggerFactory)
+        public ContactDbContextFactory(Microsoft.Extensions.Options.IOptions<ApplicationConfig> appConfig, ILoggerFactory loggerFactory)
         {
-            this.appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
+            this.appConfig = appConfig.Value ?? throw new ArgumentNullException(nameof(appConfig));
             this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));            
         }
 
