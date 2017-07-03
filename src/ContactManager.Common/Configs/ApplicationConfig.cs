@@ -1,6 +1,6 @@
 ﻿namespace ContactManager.Common.Configs
 {
-    public class ApplicationConfig : IApplicationConfig
+    public class ApplicationConfig
     {
         public string SqlDbConnectionString
         {

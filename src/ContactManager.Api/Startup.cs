@@ -33,9 +33,8 @@ namespace ContactManager.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // application config load
-            Common.Bootstrapper.Init(services);
-            var dbConnectionString = Configuration.GetSection("AppConfig")["DefaultSqlConnection"];
+            // application config load            
+            var dbConnectionString = Configuration.GetConnectionString("DefaultConnection");            
             services.Configure<ApplicationConfig>(config => config.SqlDbConnectionString = dbConnectionString);
             
             Data.EfCore.Bootstrapper.Init(services);
