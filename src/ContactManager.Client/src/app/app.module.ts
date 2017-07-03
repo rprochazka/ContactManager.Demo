@@ -11,6 +11,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {appRouting} from './app.routing'
 import {ContactsRoutingModule} from './contacts/contacts-routing.module'
 
+import {HttpJsonClient} from './common/http-json-client'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,7 @@ import {ContactsRoutingModule} from './contacts/contacts-routing.module'
     ContactsModule,
     ContactsRoutingModule
   ],
-  providers: [],
+  providers: [HttpJsonClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

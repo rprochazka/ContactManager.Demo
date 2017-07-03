@@ -5,7 +5,7 @@ import {ContactListComponent} from './contact-list/contact-list.component'
 
 const routes: Routes = [
   { path: 'contacts', component: ContactListComponent, pathMatch: 'full' },
-  { path: 'contatcs/new', component: ContactFormComponent},
+  { path: 'contacts/new', component: ContactFormComponent},
   { path: 'contacts/:id', component: ContactFormComponent}
 ];
 

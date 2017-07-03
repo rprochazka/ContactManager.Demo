@@ -1,3 +1,86 @@
-<p>
-  contact-form works!
-</p>
+<h5>{{ title }}</h5>
+<div class="row">
+  <form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">account_circle</i>
+        <input id="firstName" type="text" class="validate"
+               [(ngModel)]="contact.firstName" formControlName="firstName"
+        >
+        <label for="firstName"
+               [class.active]="contact.firstName">
+          First name
+        </label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">account_circle</i>
+        <input id="lastName" type="text" class="validate"
+               [(ngModel)]="contact.lastName" formControlName="lastName"
+               [class.invalid]="form.controls['lastName'].touched && !form.controls['lastName'].valid"
+        >
+        <label for="lastName"
+               [class.active]="contact.lastName"
+               data-error="Last name is required">
+          Last name
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">email</i>
+        <input id="email" type="email" class="validate"
+               [(ngModel)]="contact.email" formControlName="email"
+               [class.invalid]="form.controls['email'].touched && !form.controls['email'].valid">
+        <label for="email"
+               [class.active]="contact.email"
+               data-error="Invalid Email">
+          Email
+        </label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">phone</i>
+        <input id="phoneNumber" type="text" class="validate"
+               [(ngModel)]="contact.phoneNumber" formControlName="phoneNumber">
+        <label for="phoneNumber" [class.active]="contact.phoneNumber">Phone number</label>
+      </div>
+    </div>
+
+
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">place</i>
+          <input id="street" type="text" class="validate"
+                 [(ngModel)]="contact.street" formControlName="street"
+                 [class.invalid]="form.controls['street'].touched
+                  && !form.controls['street'].valid">
+          <label for="street" [class.active]="contact.street">
+            Street
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s8">
+          <i class="material-icons prefix">map</i>
+          <input id="city" type="text" class="validate"
+                 [(ngModel)]="contact.city" formControlName="city">
+          <label for="city" [class.active]="contact.city">City</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="zipcode" type="text" class="validate"
+                 [(ngModel)]="contact.zipcode" formControlName="zipcode"
+                 [class.invalid]="form.controls['zipcode'].touched
+                  && !form.controls['zipcode'].valid">
+          <label for="zipcode"
+                 [class.active]="contact.zipcode"
+                 data-error="Invalid ZipCode">
+            ZipCode
+          </label>
+        </div>
+      </div>
+
+    <button class="btn waves-effect waves-light" type="submit"
+            [disabled]="!form.valid">
+      Submit<i class="material-icons right">send</i>
+    </button>
+  </form>
+</div>
