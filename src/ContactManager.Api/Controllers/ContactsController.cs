@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using ContactManager.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 using ContactManager.Api.Models;
 using ContactManager.Entities.Models;
@@ -9,6 +10,7 @@ using ContactManager.Services;
 namespace ContactManager.Api.Controllers
 {
     [Route("api/contacts")]
+    [ValidateModel]
     public class ContactsController : Controller
     {
         private readonly IContactService contactService;
@@ -28,7 +30,7 @@ namespace ContactManager.Api.Controllers
             return Ok(mapper.Map<IEnumerable<ContactModel>, IEnumerable<ContactBriefViewModel>>(result));
         }
 
-        [Route("{id}")]
+        [Route("{id}", Name = "GetContact")]
         [HttpGet]
         public IActionResult GetContact(int id)
         {
@@ -39,7 +41,7 @@ namespace ContactManager.Api.Controllers
         [Route("{id}")]
         [HttpPut]
         public IActionResult UpdateContact(int id, [FromBody]ContactEditViewModel contact)
-        {
+        {            
             var model = mapper.Map<ContactEditViewModel, ContactModel>(contact);
             model.Id = id;
             var result = contactService.SaveContact(model);
@@ -49,10 +51,10 @@ namespace ContactManager.Api.Controllers
         [Route("")]
         [HttpPost]
         public IActionResult CreateContact([FromBody]ContactEditViewModel contact)
-        {
+        {            
             var model = mapper.Map<ContactEditViewModel, ContactModel>(contact);            
             var result = contactService.SaveContact(model);
-            return Ok(mapper.Map<ContactModel, ContactDetailViewModel>(result));
+            return CreatedAtAction("GetContact", new {id = result.Id}, mapper.Map<ContactModel, ContactDetailViewModel>(result));
         }
 
         [Route("{id}")]
@@ -61,6 +63,13 @@ namespace ContactManager.Api.Controllers
         {
             contactService.DeleteContact(id);
             return NoContent();
+        }
+
+        [Route("contactgroups")]
+        [HttpGet]
+        public IActionResult GetContactGroups()
+        {
+            return Ok(mapper.Map<IEnumerable<ContactGroupModel>, IEnumerable<ContactGroupViewModel>>(contactService.GetContactGroups()));
         }
 
     }    

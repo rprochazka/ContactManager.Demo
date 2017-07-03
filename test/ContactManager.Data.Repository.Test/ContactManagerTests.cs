@@ -6,6 +6,7 @@ using ContactManager.Data.EfCore;
 using ContactManager.Data.Repository.Logging;
 using ContactManager.Entities.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace ContactManager.Data.Repository.Test
@@ -24,6 +25,8 @@ namespace ContactManager.Data.Repository.Test
                     @"Data Source=(localdb)\ProjectsV13;Initial Catalog=ContactManager;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
             };
 
+            var applicationConfigOptions = Options.Create(applicationConfig);            
+
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<MappingProfile>();
             });
@@ -33,7 +36,7 @@ namespace ContactManager.Data.Repository.Test
             loggerFactory.AddProvider(new EfCoreFilteredLoggerProvider(true));
             var logger = loggerFactory.CreateLogger("ContactRepository");
 
-            var dbContextFactory = new ContactDbContextFactory(applicationConfig, loggerFactory, logger);            
+            var dbContextFactory = new ContactDbContextFactory(applicationConfigOptions, loggerFactory);            
 
             contactRepository = new ContactRepository(dbContextFactory, mapper, loggerFactory);
         }

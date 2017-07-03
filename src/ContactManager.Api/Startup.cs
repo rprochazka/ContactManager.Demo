@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using AutoMapper;
+using ContactManager.Api.Filters;
 using ContactManager.Common.Configs;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,11 +17,13 @@ namespace ContactManager.Api
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IHostingEnvironment hostingEnv;
+        private readonly ILoggerFactory loggerFactory;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            _hostingEnv = env;
+            hostingEnv = env;
+            this.loggerFactory = loggerFactory;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -53,7 +57,12 @@ namespace ContactManager.Api
 
             services.AddMvc()
                 .AddJsonOptions(
-                    opts => { opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); });
+                    opts =>
+                    {
+                        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    })
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .AddMvcOptions(o => { o.Filters.Add(new GlobalExceptionFilter(loggerFactory, hostingEnv.IsProduction())); });
 
             services.AddAutoMapper(typeof(MappingProfile).GetTypeInfo().Assembly, typeof(Data.Repository.MappingProfile).GetTypeInfo().Assembly);
 
@@ -69,7 +78,7 @@ namespace ContactManager.Api
 
                 c.DescribeAllEnumsAsStrings();
 
-                var filePath = System.IO.Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, $"{_hostingEnv.ApplicationName}.xml");
+                var filePath = System.IO.Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, $"{hostingEnv.ApplicationName}.xml");
                 c.IncludeXmlComments(filePath);
             });
         }    

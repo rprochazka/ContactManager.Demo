@@ -107,8 +107,7 @@ namespace ContactManager.Data.Repository
                 if (null != entity)
                 {
                     var contactGroups = entity.ContactsContactGroups;
-                    dbContext.RemoveRange(contactGroups);
-                    //dbContext.Contact.RemoveRange(entity.ContactsContactGroups);
+                    dbContext.RemoveRange(contactGroups);                    
                     dbContext.Remove(entity);                    
                     dbContext.SaveChanges();
                 }

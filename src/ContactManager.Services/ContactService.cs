@@ -1,7 +1,5 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ContactManager.Common.Exceptions;
 using ContactManager.Data.Repository;
 using ContactManager.Entities.Models;
 
@@ -43,6 +41,15 @@ namespace ContactManager.Services
 
         ContactModel IContactService.SaveContact(ContactModel contact)
         {
+            if (contact.Id > 0)
+            {
+                var dbContact = repository.GetContact(contact.Id);
+                if (dbContact == null)
+                {
+                    throw new ResourceNotFoundException($"ContactId {contact.Id} not found.");
+                }
+            }
+
             repository.SaveContact(contact);
             return contact;
         }
