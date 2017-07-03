@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ContactManager.Data.EfCore.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 
 namespace ContactManager.Data.EfCore
@@ -28,9 +30,19 @@ namespace ContactManager.Data.EfCore
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer(connectionString);
             optionsBuilder.UseLoggerFactory(loggerFactory);               
-        }        
+        }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelbuilder);
+        }
+
+
         private void OnSaveChanges()
         {            
             //var entities = this.ChangeTracker.Entries().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);

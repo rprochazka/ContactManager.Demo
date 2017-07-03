@@ -103,10 +103,13 @@ namespace ContactManager.Data.Repository
         {
             using (var dbContext = dbContextFactory.Create())
             {
-                var entity = dbContext.Contact.FirstOrDefault(i => i.Id == id);
+                var entity = dbContext.Contact.Include(i=>i.ContactsContactGroups).FirstOrDefault(i => i.Id == id);
                 if (null != entity)
                 {
-                    dbContext.Contact.Remove(entity);
+                    var contactGroups = entity.ContactsContactGroups;
+                    dbContext.RemoveRange(contactGroups);
+                    //dbContext.Contact.RemoveRange(entity.ContactsContactGroups);
+                    dbContext.Remove(entity);                    
                     dbContext.SaveChanges();
                 }
             }
