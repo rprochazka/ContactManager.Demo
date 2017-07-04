@@ -19,7 +19,11 @@
       <td>{{ contact.firstName }}</td>
       <td>{{ contact.lastName }}</td>
       <td>{{ contact.email }}</td>
-      <td>{{ contact.groups }}</td>
+      <td>
+        <ng-template ngFor let-group [ngForOf]="translateGroupIds(contact.groups)">
+          <div class="chip">{{group}}</div>
+        </ng-template>
+      </td>
       <td>
         <a [routerLink]="['/contacts', contact.id]">
           <i class="material-icons">mode_edit</i>
