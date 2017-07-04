@@ -90,13 +90,42 @@ namespace ContactManager.Data.Repository
         {
             using (var dbContext = dbContextFactory.Create())
             {
-                var entity = dbContext.Contact.FirstOrDefault(i => i.Id == contact.Id);
+                var entity = dbContext.Contact.Include(i => i.ContactsContactGroups).FirstOrDefault(i => i.Id == contact.Id);
                 if (null != entity)
                 {
+                    var groupsToDelete = GetGroupsToDelete(entity.ContactsContactGroups, contact.Groups);
+                    if (groupsToDelete.Any())
+                    {
+                        dbContext.RemoveRange(groupsToDelete);
+                    }
+
+                    var groupsToAdd = GetGroupsToAdd(entity.ContactsContactGroups, contact.Groups, contact.Id);
+                    if (groupsToAdd.Any())
+                    {
+                        dbContext.AddRange(groupsToAdd);
+                    }
+
                     dbContext.Entry(entity).CurrentValues.SetValues(contact);
                     dbContext.SaveChanges();
                 }
             }
+        }
+        
+        private IList<ContactsContactGroups> GetGroupsToDelete(ICollection<ContactsContactGroups> currentContactGroups,
+            IList<int> newContactGroups)
+        {
+            return currentContactGroups.Where(currentContactGroup => !newContactGroups.Contains(currentContactGroup.ContactGroupId)).ToList();            
+        }
+
+        private IList<ContactsContactGroups> GetGroupsToAdd(ICollection<ContactsContactGroups> currentContactGroups,
+            IList<int> newContactGroups, int contactId)
+        {            
+            var currentGroupIds = currentContactGroups.Select(i => i.ContactGroupId).ToList();
+            return newContactGroups.Where(i => !currentGroupIds.Contains(i)).Select(i => new ContactsContactGroups
+            {
+                ContactGroupId = i,
+                ContactId = contactId
+            }).ToList();
         }
 
         public void DeleteContact(int id)

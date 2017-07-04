@@ -22,9 +22,9 @@ namespace ContactManager.Api.Models
             RuleFor(x => x.FirstName).MaximumLength(50);
             RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
             RuleFor(x => x.Street).MaximumLength(100);
-            RuleFor(x => x.City).MaximumLength(100);
+            RuleFor(x => x.City).NotEmpty().MaximumLength(100);
             RuleFor(x => x.ZipCode).MaximumLength(50);
-            RuleFor(x => x.Email).EmailAddress();
+            RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.PhoneNumber).Matches(@"\d{9}");
         }
     }

@@ -13,15 +13,14 @@ namespace ContactManager.Services
         {
             this.repository = repository;
         }
-
-        public IEnumerable<ContactModel> GetContacts()
+        
+        public IEnumerable<ContactModel> GetContacts(int? groupId)
         {
+            if (groupId.HasValue)
+            {
+                return repository.GetContactsByGroupId(groupId.Value);
+            }
             return repository.GetContacts();
-        }
-
-        public IEnumerable<ContactModel> GetContactsByGroupId(int groupId)
-        {
-            return repository.GetContactsByGroupId(groupId);
         }
 
         public ContactModel GetContact(int id)

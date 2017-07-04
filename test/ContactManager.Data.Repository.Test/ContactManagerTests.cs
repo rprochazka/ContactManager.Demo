@@ -68,7 +68,10 @@ namespace ContactManager.Data.Repository.Test
             var newContact = new ContactModel
             {
                 FirstName = "Radek",
-                LastName = "Prochazka"
+                LastName = "Prochazka",
+                City = "Mnisek",
+                Email = "rpp@seznam.cz",
+                Groups = new List<int> { 1,2}
             };
             var newId = CreateNewContact(newContact);            
 
@@ -79,6 +82,9 @@ namespace ContactManager.Data.Repository.Test
             Assert.True(dbContact != null);            
             Assert.True(dbContact.FirstName.Equals(newContact.FirstName));
             Assert.True(dbContact.LastName.Equals(newContact.LastName));
+            Assert.True(dbContact.City.Equals(newContact.City));
+            Assert.True(dbContact.Email.Equals(newContact.Email));
+            Assert.True(dbContact.Groups.Contains(1) && dbContact.Groups.Contains(2));
         }
 
         [Fact]
@@ -88,19 +94,24 @@ namespace ContactManager.Data.Repository.Test
             var contact = new ContactModel
             {
                 FirstName = "Radek",
-                LastName = "Prochazka"
+                LastName = "Prochazka",
+                City = "Mnisek",
+                Email = "rpp@seznam.cz",
+                Groups = new List<int> { 1, 2}
             };
             var newId = CreateNewContact(contact);
 
             //act
             contact.Id = newId;
             contact.FirstName = "Tomas";
+            contact.Groups = new List<int> {2,3};
             contactRepository.SaveContact(contact);
             var dbContact = contactRepository.GetContact(newId);
 
             //assert            
             Assert.True(dbContact.FirstName.Equals("Tomas"));
             Assert.True(dbContact.LastName.Equals("Prochazka"));
+            Assert.True(dbContact.Groups.Contains(2) && dbContact.Groups.Contains(3));
         }
 
         [Fact]
@@ -110,7 +121,9 @@ namespace ContactManager.Data.Repository.Test
             var contact = new ContactModel
             {
                 FirstName = "Radek",
-                LastName = "Prochazka"
+                LastName = "Prochazka",
+                City = "Mnisek",
+                Email = "rpp@seznam.cz",
             };
             var newId = CreateNewContact(contact);
 
@@ -132,24 +145,32 @@ namespace ContactManager.Data.Repository.Test
                 {
                     FirstName = "Radek",
                     LastName = "Prochazka",
+                    City = "Mnisek",
+                    Email = "rpp@seznam.cz",
                     Groups = new List<int> {1, 2}
                 },
                 new ContactModel
                 {
                     FirstName = "Tomas",
                     LastName = "Bily",
+                    City = "Mnisek",
+                    Email = "rpp@seznam.cz",
                     Groups = new List<int> {2, 3}
                 },
                 new ContactModel
                 {
                     FirstName = "Jirka",
                     LastName = "Cerny",
+                    City = "Mnisek",
+                    Email = "rpp@seznam.cz",
                     Groups = new List<int> {3}
                 },
                 new ContactModel
                 {
                     FirstName = "Jozo",
                     LastName = "Dezo",
+                    City = "Mnisek",
+                    Email = "rpp@seznam.cz",
                     Groups = new List<int> {1}
                 }
             };
