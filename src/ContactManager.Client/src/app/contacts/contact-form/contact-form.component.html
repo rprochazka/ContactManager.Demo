@@ -40,8 +40,9 @@
       <div class="input-field col s6">
         <i class="material-icons prefix">phone</i>
         <input id="phoneNumber" type="text" class="validate"
-               [(ngModel)]="contact.phoneNumber" formControlName="phoneNumber">
-        <label for="phoneNumber" [class.active]="contact.phoneNumber">Phone number</label>
+               [(ngModel)]="contact.phoneNumber" formControlName="phoneNumber"
+               [class.invalid]="form.controls['phoneNumber'].touched && !form.controls['phoneNumber'].valid">
+        <label for="phoneNumber" [class.active]="contact.phoneNumber" data-error="Invalid phone number">Phone number</label>
       </div>
     </div>
 
@@ -62,8 +63,9 @@
         <div class="input-field col s8">
           <i class="material-icons prefix">map</i>
           <input id="city" type="text" class="validate"
-                 [(ngModel)]="contact.city" formControlName="city">
-          <label for="city" [class.active]="contact.city">City</label>
+                 [(ngModel)]="contact.city" formControlName="city"
+                 [class.invalid]="form.controls['city'].touched && !form.controls['city'].valid">
+          <label for="city" [class.active]="contact.city" data-error="City is required">City</label>
         </div>
         <div class="input-field col s4">
           <input id="zipcode" type="text" class="validate"
@@ -75,6 +77,15 @@
                  data-error="Invalid ZipCode">
             ZipCode
           </label>
+        </div>
+      </div>
+      <div class="row">
+        <div>Contact groups</div>
+        <div *ngIf="groups && groups.controls" class="input-field col s8">
+          <span *ngFor="let group of groups.controls; let i=index; let id=index" style="padding-right: 30px">
+            <input id="{{id}}" type="checkbox" [formControl]="group"/>
+            <label for="{{id}}">{{contactGroups[i].name}}</label>
+          </span>
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import { ContactGroupModel } from './contact-group-model';
 import { HttpJsonClient } from './../../common/http-json-client';
 import { ContactModel } from './contact-model';
 import { Injectable } from '@angular/core';
@@ -40,6 +41,9 @@ export class ContactsService {
   }
 
   getContact(id: number) {
+    if (!id) {
+      return Observable.of(null);
+    }
     return this.http
       .get(`${this.serviceUrl}/${id}`)
       .map((resp) => this.extractData<ContactModel>(resp))
@@ -64,6 +68,13 @@ export class ContactsService {
     return this.http
       .delete(`${this.serviceUrl}/${id}`)
       .map((resp) => Observable.empty<Response>())
+      .catch(this.handleError);
+  }
+
+  getContactGroups() {
+    return this.http
+      .get(this.serviceUrl + '/contactgroups')
+      .map((resp) => this.extractData<ContactGroupModel[]>(resp))
       .catch(this.handleError);
   }
 }

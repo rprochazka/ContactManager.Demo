@@ -1,5 +1,5 @@
+import { ContactModel } from './../shared/contact-model';
 import { ContactsService } from './../shared/contacts.service';
-import { IContactBriefResult } from './../shared/icontact-brief-result';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/mergeMap';
@@ -11,7 +11,7 @@ import 'rxjs/add/operator/mergeMap';
 })
 export class ContactListComponent implements OnInit {
 
-  private contacts: IContactBriefResult[] = [];
+  private contacts: ContactModel[] = [];
 
   constructor(private contactService: ContactsService, private router: Router) { }
 
@@ -24,7 +24,7 @@ export class ContactListComponent implements OnInit {
     this.loadData()
   }
 
-  deleteContact(event: Event, contact: IContactBriefResult) {
+  deleteContact(event: Event, contact: ContactModel) {
     event.stopPropagation();
     if (confirm('Are you sure you want to delete ' + contact.lastName + '?')) {
       this.contactService.deleteContact(contact.id)
