@@ -5,6 +5,7 @@
 </div>
 
 <div class="row">
+  <label>Filter by group</label>
   <select class="browser-default" [ngModel]="selectedGroup" (ngModelChange)="onGroupChange($event)">
     <option [ngValue]="group.id" *ngFor="let group of contactGroups">{{group.name}}</option>
     <option [ngValue]="selectedGroup">--- All groups ---</option>
