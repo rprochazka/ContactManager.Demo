@@ -1,7 +1,17 @@
-<p style="font-size: 25px">
-  Displaying {{ contacts.length }} contacts.
-</p>
+<div class="row">
+  <p style="font-size: 25px">
+    Displaying {{ contacts.length }} contacts.
+  </p>
+</div>
 
+<div class="row">
+  <select class="browser-default" [ngModel]="selectedGroup" (ngModelChange)="onGroupChange($event)">
+    <option [ngValue]="group.id" *ngFor="let group of contactGroups">{{group.name}}</option>
+    <option [ngValue]="selectedGroup">--- All groups ---</option>
+  </select>
+</div>
+
+<div class="row">
 <table>
   <thead>
   <tr>
@@ -37,6 +47,7 @@
     </tr>
   </tbody>
 </table>
+</div>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
   <a class="btn-floating btn-large waves-effect waves-light green"

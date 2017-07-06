@@ -54,4 +54,11 @@ export class ContactListComponent implements OnInit {
     }
   }
 
+  onGroupChange(selectedGroup) {
+    this.contactService.getContacts(selectedGroup)
+        .subscribe(contacts => {
+          this.contacts = contacts;
+        });
+  }
+
 }

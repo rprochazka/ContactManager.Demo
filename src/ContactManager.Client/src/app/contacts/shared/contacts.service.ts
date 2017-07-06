@@ -12,6 +12,7 @@ import 'rxjs/add/observable/empty';
 export class ContactsService {
 
   private serviceUrl = 'http://localhost:5000/api/contacts';
+  private contactGroups: Observable<ContactGroupModel[]>;
 
   constructor(private http: HttpJsonClient) { }
 
@@ -33,9 +34,13 @@ export class ContactsService {
     return Observable.throw(errMsg);
   }
 
-  getContacts() {
+  getContacts(groupId?: number) {
+    let url = this.serviceUrl;
+    if (groupId) {
+      url += `?groupId=${groupId}`;
+    }
     return this.http
-      .get(this.serviceUrl)
+      .get(url)
       .map((resp) => this.extractData<ContactModel[]>(resp))
       .catch(this.handleError);
   }
@@ -72,9 +77,13 @@ export class ContactsService {
   }
 
   getContactGroups() {
-    return this.http
+    if (!this.contactGroups) {
+      this.contactGroups = this.http
       .get(this.serviceUrl + '/contactgroups')
       .map((resp) => this.extractData<ContactGroupModel[]>(resp))
+      .publishReplay(1).refCount()
       .catch(this.handleError);
+    }
+    return this.contactGroups;
   }
 }

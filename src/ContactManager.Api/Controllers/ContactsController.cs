@@ -24,7 +24,7 @@ namespace ContactManager.Api.Controllers
 
         [Route("")]
         [HttpGet]
-        public IActionResult GetContacts(int? groupId)
+        public IActionResult GetContacts([FromQuery]int? groupId)
         {
             var result = contactService.GetContacts(groupId);            
             return Ok(mapper.Map<IEnumerable<ContactModel>, IEnumerable<ContactBriefViewModel>>(result));

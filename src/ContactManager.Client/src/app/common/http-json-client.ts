@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 @Injectable()
 export class HttpJsonClient {
@@ -10,12 +10,14 @@ export class HttpJsonClient {
     headers.append('Content-Type', 'application/json');
   }
 
-  get(url) {
+  get(url, params?) {
     const headers = new Headers();
     this.createJsonContentTypeHeader(headers);
-    return this.http.get(url, {
-      headers: headers
-    });
+    const options = new RequestOptions({ headers: headers });
+    if (params) {
+      options.params = params;
+    }
+    return this.http.get(url, options);
   }
 
   post(url, data) {
