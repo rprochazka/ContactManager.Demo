@@ -23,7 +23,7 @@ Projects:
  #Instalation
  Server side
   - change connection string in appsettings.json
-  - run db script to create db structure
+  - run db script to create db structure (ContactManager.Db\ContactManager.Db_Create.sql)
   - restore npm packages ... dotnet restore
   - run the app ... dotnet run (run on kestrel on http://localhost:5000/)
   
