@@ -8,9 +8,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish:dev": "ng build && copyfiles -u 1 dist/*.* ../ContactManager.Api/wwwroot"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
@@ -21,6 +22,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "copyfiles": "^1.2.0",
     "core-js": "^2.4.1",
     "materialize-css": "^0.99.0",
     "rxjs": "^5.1.0",

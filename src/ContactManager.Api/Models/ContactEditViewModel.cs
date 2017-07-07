@@ -25,7 +25,7 @@ namespace ContactManager.Api.Models
             RuleFor(x => x.City).NotEmpty().MaximumLength(100);
             RuleFor(x => x.ZipCode).MaximumLength(50);
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.PhoneNumber).Matches(@"^\d{9}$");
+            RuleFor(x => x.PhoneNumber).Matches(@"^(\s*|\d{9})$");
         }
     }
 }

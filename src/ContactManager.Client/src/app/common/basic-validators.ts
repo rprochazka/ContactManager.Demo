@@ -15,7 +15,7 @@ export class BasicValidators {
 
   static phone (control: FormControl) {
 
-    const PHONE_REGEXP = /^\d{9}$/;
+    const PHONE_REGEXP = /^(\s*|\d{9})$/;
 
     return !control.value || PHONE_REGEXP.test(control.value) ? null : {
       validatePhone: {

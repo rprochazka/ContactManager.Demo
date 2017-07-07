@@ -1,0 +1,4 @@
+
+> contact-manager.client@0.0.0 publish d:\git\github\ContactManager\src\ContactManager.Client
+> ng build && copyfiles -u 1 dist/*.* ../ContactManager.Api/wwwroot
+

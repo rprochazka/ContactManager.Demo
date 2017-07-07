@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 using AutoMapper;
 using ContactManager.Api.Filters;
 using ContactManager.Common.Configs;
@@ -93,7 +94,19 @@ namespace ContactManager.Api
                 loggerFactory.AddDebug();
                 app.UseDeveloperExceptionPage();
             }
-            
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
+
             app.UseCors("CorsPolicy");
             
             app.UseMvc();
