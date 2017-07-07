@@ -21,7 +21,7 @@
         <label for="lastName"
                [class.active]="contact.lastName"
                data-error="Last name is required">
-          Last name
+          Last name *
         </label>
       </div>
     </div>
@@ -34,7 +34,7 @@
         <label for="email"
                [class.active]="contact.email"
                data-error="Invalid Email">
-          Email
+          Email *
         </label>
       </div>
       <div class="input-field col s6">
@@ -65,7 +65,7 @@
           <input id="city" type="text" class="validate"
                  [(ngModel)]="contact.city" formControlName="city"
                  [class.invalid]="form.controls['city'].touched && !form.controls['city'].valid">
-          <label for="city" [class.active]="contact.city" data-error="City is required">City</label>
+          <label for="city" [class.active]="contact.city" data-error="City is required">City *</label>
         </div>
         <div class="input-field col s4">
           <input id="zipcode" type="text" class="validate"
