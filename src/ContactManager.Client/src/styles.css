@@ -1,2 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/materialize-css/dist/css/materialize.css";
+
+/* workaround for not properly updated invalid input class*/
+input:not([type]).ng-invalid, input:not([type]):focus.ng-invalid,
+input[type=text]:not(.browser-default).ng-invalid,
+input[type=text]:not(.browser-default):focus.ng-invalid,
+input[type=password]:not(.browser-default).ng-invalid,
+input[type=password]:not(.browser-default):focus.ng-invalid,
+input[type=email]:not(.browser-default).ng-invalid,
+input[type=email]:not(.browser-default):focus.ng-invalid,
+input[type=url]:not(.browser-default).ng-invalid,
+input[type=url]:not(.browser-default):focus.ng-invalid,
+input[type=time]:not(.browser-default).ng-invalid,
+input[type=time]:not(.browser-default):focus.ng-invalid,
+input[type=date]:not(.browser-default).ng-invalid,
+input[type=date]:not(.browser-default):focus.ng-invalid,
+input[type=datetime]:not(.browser-default).ng-invalid,
+input[type=datetime]:not(.browser-default):focus.ng-invalid,
+input[type=datetime-local]:not(.browser-default).ng-invalid,
+input[type=datetime-local]:not(.browser-default):focus.ng-invalid,
+input[type=tel]:not(.browser-default).ng-invalid,
+input[type=tel]:not(.browser-default):focus.ng-invalid,
+input[type=number]:not(.browser-default).ng-invalid,
+input[type=number]:not(.browser-default):focus.ng-invalid,
+input[type=search]:not(.browser-default).ng-invalid,
+input[type=search]:not(.browser-default):focus.ng-invalid,
+textarea.materialize-textarea.ng-invalid,
+textarea.materialize-textarea:focus.ng-invalid {
+  border-bottom: 1px solid #F44336;
+  box-shadow: 0 1px 0 0 #F44336;
+}
+
+input:not([type]).ng-invalid + label:after,
+input:not([type]):focus.ng-invalid + label:after,
+input[type=text]:not(.browser-default).ng-invalid + label:after,
+input[type=text]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=password]:not(.browser-default).ng-invalid + label:after,
+input[type=password]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=email]:not(.browser-default).ng-invalid + label:after,
+input[type=email]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=url]:not(.browser-default).ng-invalid + label:after,
+input[type=url]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=time]:not(.browser-default).ng-invalid + label:after,
+input[type=time]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=date]:not(.browser-default).ng-invalid + label:after,
+input[type=date]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=datetime]:not(.browser-default).ng-invalid + label:after,
+input[type=datetime]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=datetime-local]:not(.browser-default).ng-invalid + label:after,
+input[type=datetime-local]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=tel]:not(.browser-default).ng-invalid + label:after,
+input[type=tel]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=number]:not(.browser-default).ng-invalid + label:after,
+input[type=number]:not(.browser-default):focus.ng-invalid + label:after,
+input[type=search]:not(.browser-default).ng-invalid + label:after,
+input[type=search]:not(.browser-default):focus.ng-invalid + label:after,
+textarea.materialize-textarea.ng-invalid + label:after,
+textarea.materialize-textarea:focus.ng-invalid + label:after {
+  content: attr(data-error);
+  color: #F44336;
+  opacity: 1;
+}

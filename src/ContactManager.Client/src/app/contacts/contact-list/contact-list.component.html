@@ -4,6 +4,22 @@
   </p>
 </div>
 
+<div class="preloader-background" *ngIf="isLoading">
+  <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <label>Filter by group</label>
   <select class="browser-default" [ngModel]="selectedGroup" (ngModelChange)="onGroupChange($event)">
@@ -41,9 +57,9 @@
         </a>
       </td>
       <td>
-        <a (click)="deleteContact($event, contact)" href="#">
+        <button class="buttonlink" (click)="deleteContact($event, contact)">
           <i class="material-icons">delete</i>
-        </a>
+        </button>
       </td>
     </tr>
   </tbody>

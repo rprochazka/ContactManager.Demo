@@ -1,26 +1,39 @@
-<h5>{{ title }}</h5>
+<br />
+<div class="row">
+  <h5>{{ title }}</h5>
+</div>
+
+<div class="preloader-background" *ngIf="isLoading">
+  <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
     <div class="row">
       <div class="input-field col s6">
         <i class="material-icons prefix">account_circle</i>
-        <input id="firstName" type="text" class="validate"
-               [(ngModel)]="contact.firstName" formControlName="firstName"
-        >
-        <label for="firstName"
-               [class.active]="contact.firstName">
+        <input id="firstName" type="text" class="validate" [(ngModel)]="contact.firstName" formControlName="firstName">
+        <label for="firstName" [class.active]="contact.firstName">
           First name
         </label>
       </div>
       <div class="input-field col s6">
         <i class="material-icons prefix">account_circle</i>
-        <input id="lastName" type="text" class="validate"
-               [(ngModel)]="contact.lastName" formControlName="lastName"
-               [class.invalid]="form.controls['lastName'].touched && !form.controls['lastName'].valid"
-        >
-        <label for="lastName"
-               [class.active]="contact.lastName"
-               data-error="Last name is required">
+        <input id="lastName" type="text" class="validate" [(ngModel)]="contact.lastName" formControlName="lastName" [ngClass]="{'invalid': form.controls['lastName'].touched && !form.controls['lastName'].valid }"
+          [class.invalid]="form.controls['lastName'].touched && !form.controls['lastName'].valid">
+        <label for="lastName" [class.active]="contact.lastName" data-error="Last name is required">
           Last name *
         </label>
       </div>
@@ -28,69 +41,55 @@
     <div class="row">
       <div class="input-field col s6">
         <i class="material-icons prefix">email</i>
-        <input id="email" type="email" class="validate"
-               [(ngModel)]="contact.email" formControlName="email"
-               [class.invalid]="form.controls['email'].touched && !form.controls['email'].valid">
-        <label for="email"
-               [class.active]="contact.email"
-               data-error="Invalid Email">
+        <input id="email" type="email" class="validate" [(ngModel)]="contact.email" formControlName="email" [class.invalid]="form.controls['email'].touched && !form.controls['email'].valid">
+        <label for="email" [class.active]="contact.email" data-error="Invalid Email">
           Email *
         </label>
       </div>
       <div class="input-field col s6">
         <i class="material-icons prefix">phone</i>
-        <input id="phoneNumber" type="text" class="validate"
-               [(ngModel)]="contact.phoneNumber" formControlName="phoneNumber"
-               [class.invalid]="form.controls['phoneNumber'].touched && !form.controls['phoneNumber'].valid">
+        <input id="phoneNumber" type="text" class="validate" [(ngModel)]="contact.phoneNumber" formControlName="phoneNumber" [class.invalid]="form.controls['phoneNumber'].touched && !form.controls['phoneNumber'].valid">
         <label for="phoneNumber" [class.active]="contact.phoneNumber" data-error="Invalid phone number">Phone number</label>
       </div>
     </div>
 
 
-      <div class="row">
-        <div class="input-field col s12">
-          <i class="material-icons prefix">place</i>
-          <input id="street" type="text" class="validate"
-                 [(ngModel)]="contact.street" formControlName="street"
-                 [class.invalid]="form.controls['street'].touched
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">place</i>
+        <input id="street" type="text" class="validate" [(ngModel)]="contact.street" formControlName="street" [class.invalid]="form.controls['street'].touched
                   && !form.controls['street'].valid">
-          <label for="street" [class.active]="contact.street">
+        <label for="street" [class.active]="contact.street">
             Street
           </label>
-        </div>
       </div>
-      <div class="row">
-        <div class="input-field col s8">
-          <i class="material-icons prefix">map</i>
-          <input id="city" type="text" class="validate"
-                 [(ngModel)]="contact.city" formControlName="city"
-                 [class.invalid]="form.controls['city'].touched && !form.controls['city'].valid">
-          <label for="city" [class.active]="contact.city" data-error="City is required">City *</label>
-        </div>
-        <div class="input-field col s4">
-          <input id="zipcode" type="text" class="validate"
-                 [(ngModel)]="contact.zipcode" formControlName="zipcode"
-                 [class.invalid]="form.controls['zipcode'].touched
+    </div>
+    <div class="row">
+      <div class="input-field col s8">
+        <i class="material-icons prefix">map</i>
+        <input id="city" type="text" class="validate" [(ngModel)]="contact.city" formControlName="city" [class.invalid]="form.controls['city'].touched && !form.controls['city'].valid">
+        <label for="city" [class.active]="contact.city" data-error="City is required">City *</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="zipcode" type="text" class="validate" [(ngModel)]="contact.zipcode" formControlName="zipcode" [class.invalid]="form.controls['zipcode'].touched
                   && !form.controls['zipcode'].valid">
-          <label for="zipcode"
-                 [class.active]="contact.zipcode"
-                 data-error="Invalid ZipCode">
+        <label for="zipcode" [class.active]="contact.zipcode" data-error="Invalid ZipCode">
             ZipCode
           </label>
-        </div>
       </div>
-      <div class="row">
-        <div>Contact groups</div>
-        <div *ngIf="groups && groups.controls" class="input-field col s8">
-          <span *ngFor="let group of groups.controls; let i=index; let id=index" style="padding-right: 30px">
+    </div>
+    <br />
+    <div class="row">
+      <div>Contact groups</div>
+      <div *ngIf="groups && groups.controls" class="input-field col s8">
+        <span *ngFor="let group of groups.controls; let i=index; let id=index" style="padding-right: 30px">
             <input id="{{id}}" type="checkbox" [formControl]="group"/>
             <label for="{{id}}">{{contactGroups[i].name}}</label>
           </span>
-        </div>
       </div>
-
-    <button class="btn waves-effect waves-light" type="submit"
-            [disabled]="!form.valid">
+    </div>
+    <br /><br />
+    <button class="btn waves-effect waves-light" type="submit" [disabled]="!form.valid">
       Submit<i class="material-icons right">send</i>
     </button>
   </form>

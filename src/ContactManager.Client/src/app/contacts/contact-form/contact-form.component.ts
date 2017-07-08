@@ -1,3 +1,4 @@
+import { ErrorResponseModel } from './../shared/error-response-model';
 import { ContactGroupModel } from './../shared/contact-group-model';
 import { ContactGroupSelectionModel } from './../shared/contact-group-selection-model';
 import { ContactsService } from './../shared/contacts.service';
@@ -21,6 +22,7 @@ export class ContactFormComponent implements OnInit {
   contact: ContactModel = new ContactModel();
   contactId?: number;
   contactGroups: ContactGroupSelectionModel[] = new Array<ContactGroupSelectionModel>();
+  isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -90,6 +92,7 @@ export class ContactFormComponent implements OnInit {
 
       this.title = id ? 'Edit contact' : 'New contact';
 
+      this.isLoading = true;
       Observable.forkJoin(
         this.contactService.getContactGroups(),
         this.contactService.getContact(id)
@@ -98,6 +101,10 @@ export class ContactFormComponent implements OnInit {
 
           const contactGroups = resp[0];
           const contact = resp[1];
+
+          if (id && !contact) {
+            this.router.navigate(['NotFound']);
+          }
 
           if (contact) {
             this.contact = contact;
@@ -111,7 +118,9 @@ export class ContactFormComponent implements OnInit {
             }
           });
           this.setContactGroups();
-        });
+        },
+        error => alert('Unabwle to load contact'),
+        () => this.isLoading = false);
 
     });
   }
@@ -121,13 +130,29 @@ export class ContactFormComponent implements OnInit {
     const contactValue = this.form.value;
     contactValue.groups = this.getSelectedGroupIds(contactValue);
 
+    this.isLoading = true;
     if (this.contactId) {
       result = this.contactService.updateContact(this.contactId, contactValue);
     } else {
       result = this.contactService.addContact(contactValue);
     }
 
-    result.subscribe(data => this.router.navigate(['contacts']));
+    result.subscribe(
+      data => this.router.navigate(['contacts']),
+      error => alert(this.formatErrorResponse(error)),
+      () => this.isLoading = false
+    );
+  }
+
+  formatErrorResponse(errorResponse: ErrorResponseModel) {
+    let formatedText: string = errorResponse.message;
+    if (errorResponse.errors) {
+      errorResponse.errors.forEach(error => {
+        formatedText += `\r\n - ${error.field}: ${error.message}`;
+      });
+    }
+
+    return formatedText;
   }
 
 }

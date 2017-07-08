@@ -1,3 +1,4 @@
+import { ErrorResponseModel } from './error-response-model';
 import { ContactGroupModel } from './contact-group-model';
 import { HttpJsonClient } from './../../common/http-json-client';
 import { ContactModel } from './contact-model';
@@ -21,7 +22,7 @@ export class ContactsService {
     return (<T>body || null);
   }
 
-  private handleError(error: Response | any) {
+  private handleError1(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -32,6 +33,19 @@ export class ContactsService {
     }
     console.error(errMsg);
     return Observable.throw(errMsg);
+  }
+
+  private handleError(error: Response | any) {
+    let result: ErrorResponseModel;
+    if (error instanceof Response) {
+      const body = error.json();
+      result = <ErrorResponseModel>body;
+      result.statusCode = error.status;
+    } else {
+      result.message = error.message ? error.message : error.toString();
+    }
+    console.error(result);
+    return Observable.throw(result);
   }
 
   getContacts(groupId?: number) {
